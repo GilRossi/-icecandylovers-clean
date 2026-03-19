@@ -11,6 +11,12 @@ jobs:
     env:
       APP_NAME: icecandylovers
       DEPLOY_DIR: /home/ubuntu/icecandylovers
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CHAT_OPENAI_ENABLED: ${{ secrets.CHAT_OPENAI_ENABLED }}
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
@@ -21,8 +27,8 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build com Maven
-        run: mvn clean package -DskipTests
+      - name: Build e testes com Maven
+        run: mvn clean verify
 
       - name: Copiar artefato para EC2
         uses: appleboy/scp-action@v0.1.0
@@ -41,6 +47,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           port: 22
+          envs: DB_URL,DB_USERNAME,DB_PASSWORD,CORS_ALLOWED_ORIGINS,OPENAI_API_KEY,CHAT_OPENAI_ENABLED
           script: |
             set -euo pipefail
 
@@ -76,6 +83,14 @@ jobs:
             cp "$INCOMING_JAR" "$CURRENT_JAR"
 
             echo "Iniciando a aplicação..."
-            nohup java -jar "$CURRENT_JAR" > "$DEPLOY_DIR/app.log" 2>&1 &
+            nohup java \
+              -Dspring.profiles.active=prod \
+              -DDB_URL="$DB_URL" \
+              -DDB_USERNAME="$DB_USERNAME" \
+              -DDB_PASSWORD="$DB_PASSWORD" \
+              -DCORS_ALLOWED_ORIGINS="$CORS_ALLOWED_ORIGINS" \
+              -DOPENAI_API_KEY="$OPENAI_API_KEY" \
+              -DCHAT_OPENAI_ENABLED="$CHAT_OPENAI_ENABLED" \
+              -jar "$CURRENT_JAR" > "$DEPLOY_DIR/app.log" 2>&1 &
 
             echo "Deploy concluído!"

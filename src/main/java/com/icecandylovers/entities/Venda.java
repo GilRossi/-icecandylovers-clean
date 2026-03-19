@@ -27,6 +27,9 @@ public class Venda {
     @Column(name = "forma_pagamento")
     private String formaPagamento;
 
+    @Column(name = "transacao_id")
+    private String transacaoId;
+
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendaItem> itens;
 
@@ -38,6 +41,14 @@ public class Venda {
 
     public void setFormaPagamento(String formaPagamento) {
         this.formaPagamento = formaPagamento;
+    }
+
+    public String getTransacaoId() {
+        return transacaoId;
+    }
+
+    public void setTransacaoId(String transacaoId) {
+        this.transacaoId = transacaoId;
     }
 
     public Long getId() {

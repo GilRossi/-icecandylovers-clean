@@ -28,11 +28,11 @@ Sistema completo desenvolvido em **Spring Boot** para gerenciamento de produçã
 ice-candy-lovers/
 │
 ├── src/main/java/com/icecandylovers/
-│   ├── config/                  # SecurityConfig, DevSecurityConfig, AppConfig
-│   ├── controllers/             # Controladores REST e MVC (9 controllers)
-│   ├── services/                # Lógica de negócio (5 services)
-│   ├── repositories/            # Repositórios Spring Data JPA (7 repos)
-│   ├── entities/                # Entidades JPA com Lombok (10 entities)
+│   ├── config/                  # SecurityConfig, DevSecurityConfig, AppConfig, ChatRateLimitInterceptor
+│   ├── controllers/             # Controladores REST e MVC (11 controllers)
+│   ├── services/                # Lógica de negócio (8 services)
+│   ├── repositories/            # Repositórios Spring Data JPA (8 repos)
+│   ├── entities/                # Entidades JPA com Lombok (13 entities)
 │   ├── dtos/                    # Objetos de transferência de dados
 │   └── exceptions/              # Exceções customizadas + GlobalRestExceptionHandler
 │
@@ -88,12 +88,14 @@ ice-candy-lovers/
 ## 🔐 Segurança
 
 * **Autenticação**: Spring Security com form login, BCrypt (strength 10), session management
+* **Autorização por Role**: `@EnableMethodSecurity` + `@PreAuthorize("hasRole('ADMIN')")` nos endpoints de gestão (CRUD de produtos, ingredientes, edição/deleção de vendas, relatórios); `ROLE_USER` acessa dashboard, registro de vendas e leitura
 * **Mass Assignment Protection**: `UserRegistrationDTO` impede injeção de campos como `id` e `role`
 * **CSRF**: `CookieCsrfTokenRepository` com SameSite=Lax
 * **Profile Isolation**: H2 Console (`/h2-console`) acessível **apenas** no perfil `dev` via `DevSecurityConfig`
+* **Rate Limiting**: `ChatRateLimitInterceptor` — sliding window 20 req/min por IP em `/api/chat/**`; retorna HTTP 429 ao exceder
 * **Cache Bounded**: Chat LRU limitado a 500 entradas para prevenir DoS de memória
 * **Error Sanitization**: mensagens de erro genéricas para o cliente, detalhes apenas no log
-* **Endpoints públicos**: `/`, `/login`, `/register`, `/css/**`, `/js/**`, `/api/chat/**`
+* **Endpoints públicos**: `/`, `/login`, `/register`, `/logout`, `/css/**`, `/js/**`, `/img/**`, `/assets/**`, `/api/chat/**`, `/api/produtos/categoria/**`, `/error`
 
 ---
 
@@ -117,12 +119,31 @@ ice-candy-lovers/
 * Cálculo automático de totais (quantidade × valor unitário)
 * Decremento automático do estoque do produto
 * Reversão de estoque ao editar/deletar vendas
+* Suporte a Boleto como forma de pagamento
 
-### 📊 Relatórios Analíticos
+### 🏷️ Sistema de Promoções e Descontos
+* CRUD de promoções com tipo PERCENTUAL ou FIXO
+* Vinculação de promoções a múltiplos produtos (`@ManyToMany`)
+* Período de vigência configurável (dataInicio / dataFim)
+* Ativação/desativação por toggle (endpoint REST)
+* Cálculo do melhor desconto disponível por produto
+* Exibição das promoções ativas no formulário de venda
+
+### 💳 Gateway de Pagamento
+* Interface `GatewayPagamentoService` para substituição futura por gateway real
+* Implementação mock (`@Primary`): DINHEIRO→APROVADO, BOLETO→PENDENTE, cartões→APROVADO
+* Endpoint `POST /api/pagamentos/processar` retorna `ResultadoPagamentoDTO` com `transacaoId`
+* Retorna HTTP 402 quando status = RECUSADO
+* Configurável via `pagamento.gateway.simular-recusa=true` para testes de recusa
+
+### 📊 Relatórios Analíticos e Dashboard
 * Análise de vendas com filtros por período e canal
 * KPIs: ticket médio, margem de lucro bruto, taxa de conversão
 * Gráficos por período, canal, forma de pagamento (Chart.js)
 * Status de estoque (em estoque, baixo, sem estoque)
+* **Dashboard estendido**: total de vendas do mês, crescimento % vs mês anterior, ticket médio mensal
+* **Alerta de estoque baixo** (produtos com 1–10 unidades)
+* **Top 5 produtos mais vendidos** (histórico completo)
 
 ### 💬 Chat Interativo (Gelyto)
 * Assistente virtual com integração OpenAI (GPT-4o-mini) opcional
@@ -162,20 +183,25 @@ ice-candy-lovers/
 | ProdutoService | 88.3% |
 | VendaController | 83.3% |
 
-### Testes Unitários (155 testes)
+### Testes Unitários (198 testes)
 
 | Classe de Teste | Testes | Cobre |
 |---|---|---|
-| `IngredienteServiceTest` | 33 | FIFO, custo médio ponderado, lotes, CRUD, validações |
+| `IngredienteServiceTest` | 35 | FIFO, custo médio ponderado, lotes, custo por valor total, CRUD, validações |
 | `ProdutoServiceTest` | 27 | CRUD, estoque, produção, custo, ingredientes, duplicatas |
-| `VendaServiceTest` | 18 | Registro, atualização, deleção, reversão de estoque |
+| `VendaServiceTest` | 26 | Registro, atualização, deleção, reversão de estoque, KPIs mensais, top 5 |
+| `PromocaoServiceTest` | 10 | CRUD, desconto PERCENTUAL/FIXO, melhor desconto, vigência |
 | `RelatorioServiceTest` | 12 | Relatório completo, KPIs, métricas, canais |
 | `UserServiceTest` | 5 | Registro, duplicata, loadUserByUsername |
 | `ProdutoControllerTest` | 20 | REST endpoints, erros, categorias |
 | `VendaControllerTest` | 12 | CRUD REST, formulários, erros |
 | `IngredienteControllerTest` | 10 | CRUD REST, lotes, estoque |
+| `PromocaoControllerTest` | 6 | CRUD REST, toggle ativo, promoções por produto |
+| `ChatControllerTest` | 5 | Mensagem válida, mensagem em branco/nula, fallback, resposta OpenAI |
+| `PagamentoControllerTest` | 5 | APROVADO, PENDENTE, RECUSADO (402), payload completo |
 | `GlobalRestExceptionHandlerTest` | 6 | Todos os 6 handlers de exceção |
 | `AuthControllerTest` | 5 | Register, login, validação, duplicata |
+| `GatewayPagamentoMockServiceTest` | 6 | DINHEIRO, BOLETO, cartão, simular-recusa via ReflectionTestUtils |
 | `RelatorioControllerTest` | 4 | View, JSON API, erros |
 | `DashboardControllerTest` | 2 | Dashboard OK, erro |
 | `IndexControllerTest` | 1 | Página index |
@@ -277,13 +303,13 @@ Docker Compose usa Dockerfile multi-stage (Maven build → JRE slim, usuário n�
 
 ## 📚 Próximos Passos
 
-### Melhorias Planejadas
-* Testes do ChatController (extrair ChatService)
-* Role-based access control (`@PreAuthorize` ADMIN/USER)
-* Rate limiting no endpoint `/api/chat/**`
-* Dashboard com mais métricas e KPIs
-* Sistema de promoções e descontos
-* Integração com gateways de pagamento
+### Melhorias Realizadas
+* ~~Testes do ChatController (extrair ChatService)~~ ✅ ChatController delegando para ChatService + ChatControllerTest
+* ~~Role-based access control (`@PreAuthorize` ADMIN/USER)~~ ✅ `@EnableMethodSecurity` + `@PreAuthorize("hasRole('ADMIN')")` em endpoints de gestão
+* ~~Rate limiting no endpoint `/api/chat/**`~~ ✅ `ChatRateLimitInterceptor` (sliding window, 20 req/min por IP)
+* ~~Dashboard com mais métricas e KPIs~~ ✅ Total mês, crescimento %, ticket médio, estoque baixo, top 5 produtos
+* ~~Sistema de promoções e descontos~~ ✅ CRUD completo, PERCENTUAL/FIXO, multi-produto, toggle ativo
+* ~~Integração com gateways de pagamento~~ ✅ Interface + mock (APROVADO/PENDENTE/RECUSADO), endpoint `/api/pagamentos/processar`
 
 ### Aplicativo Mobile (Proposta)
 * Desenvolvimento nativo Android com Kotlin

@@ -475,6 +475,142 @@ class VendaServiceTest {
     }
 
     @Nested
+    @DisplayName("calcularTotalVendasMes")
+    class CalcularTotalVendasMes {
+
+        @Test
+        @DisplayName("deve retornar total quando repositório retorna valor")
+        void deve_retornar_total_quando_repositorio_retorna_valor() {
+            // given
+            BigDecimal esperado = new BigDecimal("3200.50");
+            when(vendaRepository.findTotalVendasMesAtual()).thenReturn(esperado);
+
+            // when
+            BigDecimal resultado = vendaService.calcularTotalVendasMes();
+
+            // then
+            assertEquals(esperado, resultado);
+            verify(vendaRepository, times(1)).findTotalVendasMesAtual();
+        }
+
+        @Test
+        @DisplayName("deve retornar zero quando repositório retorna nulo")
+        void deve_retornar_zero_quando_repositorio_retorna_nulo() {
+            // given
+            when(vendaRepository.findTotalVendasMesAtual()).thenReturn(null);
+
+            // when
+            BigDecimal resultado = vendaService.calcularTotalVendasMes();
+
+            // then
+            assertEquals(BigDecimal.ZERO, resultado);
+        }
+    }
+
+    @Nested
+    @DisplayName("calcularCrescimentoMensal")
+    class CalcularCrescimentoMensal {
+
+        @Test
+        @DisplayName("deve retornar nulo quando mês anterior não tem vendas")
+        void deve_retornar_nulo_quando_mes_anterior_sem_vendas() {
+            // given
+            when(vendaRepository.findTotalVendasPorPeriodo(any(), any()))
+                    .thenReturn(BigDecimal.ZERO);
+
+            // when
+            Double resultado = vendaService.calcularCrescimentoMensal();
+
+            // then
+            assertNull(resultado);
+        }
+
+        @Test
+        @DisplayName("deve calcular crescimento positivo corretamente")
+        void deve_calcular_crescimento_positivo_corretamente() {
+            // given - mês anterior: 1000, mês atual: 1500 => 50%
+            when(vendaRepository.findTotalVendasPorPeriodo(any(), any()))
+                    .thenReturn(new BigDecimal("1000.00"))  // primeiro call = mês atual
+                    .thenReturn(new BigDecimal("1000.00")); // segundo call = mês anterior
+
+            // O service chama: findTotalVendasPorPeriodo(inicioMesAtual, now) e depois
+            // findTotalVendasPorPeriodo(inicioMesAnterior, inicioMesAtual)
+            // Precisamos controlar o retorno de cada chamada por ordem
+            when(vendaRepository.findTotalVendasPorPeriodo(any(), any()))
+                    .thenReturn(new BigDecimal("1500.00"), new BigDecimal("1000.00"));
+
+            // when
+            Double resultado = vendaService.calcularCrescimentoMensal();
+
+            // then
+            assertNotNull(resultado);
+            assertEquals(50.0, resultado, 0.01);
+        }
+
+        @Test
+        @DisplayName("deve calcular crescimento negativo corretamente")
+        void deve_calcular_crescimento_negativo_corretamente() {
+            // given - mês anterior: 2000, mês atual: 1000 => -50%
+            when(vendaRepository.findTotalVendasPorPeriodo(any(), any()))
+                    .thenReturn(new BigDecimal("1000.00"), new BigDecimal("2000.00"));
+
+            // when
+            Double resultado = vendaService.calcularCrescimentoMensal();
+
+            // then
+            assertNotNull(resultado);
+            assertEquals(-50.0, resultado, 0.01);
+        }
+    }
+
+    @Nested
+    @DisplayName("calcularTicketMedioMes")
+    class CalcularTicketMedioMes {
+
+        @Test
+        @DisplayName("deve retornar zero quando não há vendas no mês")
+        void deve_retornar_zero_quando_nao_ha_vendas() {
+            // given
+            when(vendaRepository.findTotalVendasPorPeriodo(any(), any())).thenReturn(BigDecimal.ZERO);
+            when(vendaRepository.countVendasByPeriod(any(), any())).thenReturn(0L);
+
+            // when
+            BigDecimal resultado = vendaService.calcularTicketMedioMes();
+
+            // then
+            assertEquals(BigDecimal.ZERO, resultado);
+        }
+
+        @Test
+        @DisplayName("deve calcular ticket médio corretamente")
+        void deve_calcular_ticket_medio_corretamente() {
+            // given - total 900, 3 vendas => ticket = 300
+            when(vendaRepository.findTotalVendasPorPeriodo(any(), any())).thenReturn(new BigDecimal("900.00"));
+            when(vendaRepository.countVendasByPeriod(any(), any())).thenReturn(3L);
+
+            // when
+            BigDecimal resultado = vendaService.calcularTicketMedioMes();
+
+            // then
+            assertEquals(new BigDecimal("300.00"), resultado);
+        }
+
+        @Test
+        @DisplayName("deve retornar zero quando count é nulo")
+        void deve_retornar_zero_quando_count_e_nulo() {
+            // given
+            when(vendaRepository.findTotalVendasPorPeriodo(any(), any())).thenReturn(new BigDecimal("500.00"));
+            when(vendaRepository.countVendasByPeriod(any(), any())).thenReturn(null);
+
+            // when
+            BigDecimal resultado = vendaService.calcularTicketMedioMes();
+
+            // then
+            assertEquals(BigDecimal.ZERO, resultado);
+        }
+    }
+
+    @Nested
     @DisplayName("listarVendas")
     class ListarVendas {
 

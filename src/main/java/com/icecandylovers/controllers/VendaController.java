@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -125,6 +126,7 @@ public class VendaController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/editar/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> atualizarVenda(
@@ -200,6 +202,7 @@ public class VendaController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deletar/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> deletarVenda(@PathVariable Long id) {

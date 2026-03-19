@@ -5,13 +5,10 @@ import com.icecandylovers.services.VendaService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.math.BigDecimal;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -22,7 +19,6 @@ public class DashboardController {
     private final ProdutoService produtoService;
     private final VendaService vendaService;
 
-    @Autowired
     public DashboardController(ProdutoService produtoService, VendaService vendaService) {
         this.produtoService = produtoService;
         this.vendaService = vendaService;
@@ -37,6 +33,11 @@ public class DashboardController {
             model.addAttribute("vendasRecentes", vendaService.obterVendasRecentes());
             model.addAttribute("totalEstoque", produtoService.calcularTotalEstoque());
             model.addAttribute("vendasHoje", vendaService.calcularVendasHoje());
+            model.addAttribute("totalVendasMes", vendaService.calcularTotalVendasMes());
+            model.addAttribute("crescimentoMensal", vendaService.calcularCrescimentoMensal());
+            model.addAttribute("ticketMedioMes", vendaService.calcularTicketMedioMes());
+            model.addAttribute("produtosEstoqueBaixo", produtoService.listarProdutosEstoqueBaixo());
+            model.addAttribute("top5Produtos", vendaService.listarTop5ProdutosMaisVendidos());
             return "dashboard";
         } catch (Exception e) {
             logger.error("Erro ao carregar dashboard: {}", e.getMessage(), e);

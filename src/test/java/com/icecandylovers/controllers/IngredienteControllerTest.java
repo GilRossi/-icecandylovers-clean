@@ -131,7 +131,7 @@ class IngredienteControllerTest {
         ing.setEstoqueAtual(BigDecimal.valueOf(30));
         ing.setCustoPorUnidade(BigDecimal.valueOf(4.50));
 
-        when(ingredienteService.adicionarLote(eq(1L), eq(BigDecimal.valueOf(20)), any())).thenReturn(lote);
+        when(ingredienteService.adicionarLotePorValorTotal(eq(1L), eq(BigDecimal.valueOf(20)), any())).thenReturn(lote);
         when(ingredienteService.buscarPorId(1L)).thenReturn(Optional.of(ing));
 
         mockMvc.perform(post("/ingredientes/1/adicionar-lote")

@@ -109,4 +109,13 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
 
     @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens")
     List<Venda> findAllWithItens();
+
+    @Query("SELECT COALESCE(SUM(v.total), 0) FROM Venda v WHERE YEAR(v.dataVenda) = YEAR(CURRENT_TIMESTAMP) AND MONTH(v.dataVenda) = MONTH(CURRENT_TIMESTAMP)")
+    BigDecimal findTotalVendasMesAtual();
+
+    @Query("SELECT COALESCE(SUM(v.total), 0) FROM Venda v WHERE v.dataVenda >= :start AND v.dataVenda < :end")
+    BigDecimal findTotalVendasPorPeriodo(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    @Query("SELECT vi.produto.sabor, SUM(vi.quantidade) as total FROM VendaItem vi GROUP BY vi.produto.sabor ORDER BY total DESC LIMIT 5")
+    List<Object[]> findTop5ProdutosAllTime();
 }

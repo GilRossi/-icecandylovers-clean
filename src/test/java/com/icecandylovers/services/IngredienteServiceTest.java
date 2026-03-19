@@ -529,6 +529,61 @@ class IngredienteServiceTest {
     }
 
     // =========================================================================
+    // adicionarLotePorValorTotal
+    // =========================================================================
+    @Nested
+    @DisplayName("adicionarLotePorValorTotal")
+    class AdicionarLotePorValorTotal {
+
+        @Test
+        @DisplayName("deve_calcular_custoPorUnidade_corretamente_quando_valorTotal100_quantidade20")
+        void deve_calcular_custoPorUnidade_corretamente_quando_valorTotal100_quantidade20() {
+            // DADO: ingrediente existente, valorTotal=100, quantidade=20 => custoPorUnidade=5.00
+            Long ingredienteId = 1L;
+            Ingrediente ingrediente = criarIngrediente(ingredienteId, "Leite", "litro",
+                    BigDecimal.ZERO, BigDecimal.ZERO);
+
+            when(ingredienteRepository.findById(ingredienteId)).thenReturn(Optional.of(ingrediente));
+            when(ingredienteRepository.save(any(Ingrediente.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
+            when(loteIngredienteRepository.save(any(LoteIngrediente.class)))
+                    .thenAnswer(invocation -> {
+                        LoteIngrediente lote = invocation.getArgument(0);
+                        lote.setId(1L);
+                        return lote;
+                    });
+
+            BigDecimal quantidade = new BigDecimal("20");
+            BigDecimal valorTotal = new BigDecimal("100");
+
+            // QUANDO
+            LoteIngrediente resultado = ingredienteService.adicionarLotePorValorTotal(ingredienteId, quantidade, valorTotal);
+
+            // ENTÃO: custoPorUnidade deve ser 5.00 (100/20)
+            verify(loteIngredienteRepository).save(loteCaptor.capture());
+            LoteIngrediente loteSalvo = loteCaptor.getValue();
+            assertEquals(0, new BigDecimal("5.00").compareTo(loteSalvo.getCustoPorUnidade()),
+                    "custoPorUnidade deve ser 100/20 = 5.00");
+            assertNotNull(resultado);
+        }
+
+        @Test
+        @DisplayName("deve_lancar_IllegalArgumentException_quando_quantidade_zero")
+        void deve_lancar_IllegalArgumentException_quando_quantidade_zero() {
+            // DADO: quantidade = 0
+            // QUANDO / ENTÃO: deve lançar IllegalArgumentException
+            IllegalArgumentException exception = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> ingredienteService.adicionarLotePorValorTotal(1L, BigDecimal.ZERO, new BigDecimal("100"))
+            );
+
+            assertTrue(exception.getMessage().contains("maior que zero"));
+            verify(ingredienteRepository, never()).findById(anyLong());
+            verify(loteIngredienteRepository, never()).save(any());
+        }
+    }
+
+    // =========================================================================
     // consumirEstoque (CRITICAL - FIFO business rule)
     // =========================================================================
     @Nested

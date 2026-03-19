@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class RelatorioController {
         this.relatorioService = relatorioService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public String relatorios(Model model) {
         LocalDateTime endDate = LocalDateTime.now();
@@ -45,6 +47,7 @@ public class RelatorioController {
         return "relatorios";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/dados")
     public ResponseEntity<?> getRelatorio(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,

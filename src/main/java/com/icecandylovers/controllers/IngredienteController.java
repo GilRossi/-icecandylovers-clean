@@ -10,11 +10,11 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +60,7 @@ public class IngredienteController {
     }
 
     // Deleta um ingrediente por ID (endpoint REST)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deletar/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> deletarIngrediente(@PathVariable Long id) {
@@ -72,6 +73,7 @@ public class IngredienteController {
     }
 
     // Edita um ingrediente existente (endpoint REST)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/editar")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> editarIngrediente(@Valid @RequestBody IngredienteEditDTO request) {
@@ -91,6 +93,7 @@ public class IngredienteController {
     }
 
     // Salva um novo ingrediente com lote inicial (endpoint REST)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/salvar")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> salvarIngrediente(@Valid @RequestBody IngredienteRequestDTO request) {
@@ -125,8 +128,7 @@ public class IngredienteController {
             throw new IllegalArgumentException("Valor total não pode ser negativo!");
         }
 
-        BigDecimal custoPorUnidadeLote = valorTotal.divide(quantidade, 2, RoundingMode.HALF_UP);
-        LoteIngrediente lote = ingredienteService.adicionarLote(id, quantidade, custoPorUnidadeLote);
+        LoteIngrediente lote = ingredienteService.adicionarLotePorValorTotal(id, quantidade, valorTotal);
 
         // Recarrega o ingrediente atualizado
         Ingrediente atualizado = ingredienteService.buscarPorId(id)

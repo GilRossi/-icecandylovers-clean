@@ -183,6 +183,24 @@ public class IngredienteService {
     }
 
     @Transactional
+    public LoteIngrediente adicionarLotePorValorTotal(Long ingredienteId, BigDecimal quantidade, BigDecimal valorTotal) {
+        logger.info("Adicionando lote por valor total ao ingrediente ID: {} com quantidade: {} e valorTotal: {}",
+                ingredienteId, quantidade, valorTotal);
+
+        if (quantidade == null || quantidade.compareTo(BigDecimal.ZERO) <= 0) {
+            logger.warn("Quantidade inválida para novo lote por valor total: {}", quantidade);
+            throw new IllegalArgumentException("A quantidade do lote deve ser maior que zero");
+        }
+        if (valorTotal == null || valorTotal.compareTo(BigDecimal.ZERO) < 0) {
+            logger.warn("Valor total inválido para novo lote: {}", valorTotal);
+            throw new IllegalArgumentException("O valor total não pode ser negativo");
+        }
+
+        BigDecimal custoPorUnidade = valorTotal.divide(quantidade, 2, RoundingMode.HALF_UP);
+        return adicionarLote(ingredienteId, quantidade, custoPorUnidade);
+    }
+
+    @Transactional
     public void consumirEstoque(Long ingredienteId, BigDecimal quantidade) {
         logger.info("Consumindo {} unidades do ingrediente ID: {}", quantidade, ingredienteId);
 

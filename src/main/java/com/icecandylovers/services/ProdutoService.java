@@ -229,6 +229,15 @@ public class ProdutoService {
         logger.debug("Estoque ajustado com sucesso para produto ID: {}", produtoId);
     }
 
+    // Listar produtos com estoque baixo (1 a 10 unidades)
+    public List<ProdutoDTO> listarProdutosEstoqueBaixo() {
+        logger.info("Listando produtos com estoque baixo");
+        return produtoRepository.findAll().stream()
+                .filter(p -> p.getEstoqueAtual() != null && p.getEstoqueAtual() > 0 && p.getEstoqueAtual() <= 10)
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     // Converter Produto para DTO
     private ProdutoDTO toDTO(Produto produto) {
         logger.debug("Convertendo Produto para DTO: {}", produto.getSabor());

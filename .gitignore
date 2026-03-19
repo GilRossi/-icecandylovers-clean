@@ -134,3 +134,8 @@ src/main/frontend/tests/e2e/stress-api-v2.js
 src/main/frontend/tests/e2e/stress-pos-carga.js
 src/main/frontend/tests/e2e/stress-completo.spec.js
 src/main/frontend/tests/e2e/abrir-relatorios.js
+
+# AI tools
+CLAUDE.md
+.claude/
+.cursor/

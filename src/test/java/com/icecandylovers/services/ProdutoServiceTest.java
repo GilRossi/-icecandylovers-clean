@@ -8,6 +8,7 @@ import com.icecandylovers.exceptions.InsufficientStockException;
 import com.icecandylovers.exceptions.ResourceNotFoundException;
 import com.icecandylovers.repositories.IngredienteRepository;
 import com.icecandylovers.repositories.LoteIngredienteRepository;
+import com.icecandylovers.repositories.PromocaoRepository;
 import com.icecandylovers.repositories.ProdutoRepository;
 import com.icecandylovers.repositories.VendaItemRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +48,9 @@ class ProdutoServiceTest {
 
     @Mock
     private VendaItemRepository vendaItemRepository;
+
+    @Mock
+    private PromocaoRepository promocaoRepository;
 
     @Mock
     private IngredienteService ingredienteService;
@@ -316,6 +320,7 @@ class ProdutoServiceTest {
 
             when(produtoRepository.findById(1L)).thenReturn(Optional.of(produto));
             when(vendaItemRepository.existsByProdutoId(1L)).thenReturn(false);
+            when(promocaoRepository.findAllByProdutoId(1L)).thenReturn(Collections.emptyList());
 
             // Act
             produtoService.deletarProduto(1L);
@@ -323,6 +328,8 @@ class ProdutoServiceTest {
             // Assert
             verify(produtoRepository).findById(1L);
             verify(vendaItemRepository).existsByProdutoId(1L);
+            verify(promocaoRepository).findAllByProdutoId(1L);
+            verify(promocaoRepository).flush();
             verify(produtoRepository).delete(produto);
         }
 

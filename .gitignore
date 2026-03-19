@@ -1,20 +1,136 @@
+# ============================================================
+# IDEs E EDITORES
+# ============================================================
 .idea/
-.terraform/
+*.iml
 .vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*~
 
+# Eclipse / STS
+.classpath
+.project
+.settings/
+.factorypath
+
+# Terraform
+.terraform/
+
+# ============================================================
+# DEPENDENCIAS E BUILD
+# ============================================================
 target/
 node_modules/
 src/main/frontend/node/
 src/main/frontend/node_modules/
 src/main/frontend/.parcel-cache/
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# ============================================================
+# TESTES — artefatos gerados
+# ============================================================
 src/main/frontend/playwright/.auth/
 src/main/frontend/playwright-report/
+src/main/frontend/playwright-report-stress/
 src/main/frontend/test-results/
+coverage/
+htmlcov/
+.coverage
+lcov.info
+*.lcov
+allure-results/
+allure-report/
+screenshots/
 
+# ============================================================
+# LOGS E TEMPORARIOS
+# ============================================================
 *.log
 nohup.out
 output.log
+logs/
+tmp/
+temp/
+.tmp/
+*.tmp
+*.bak
+*.orig
+*.cache
 
+# ============================================================
+# VARIAVEIS DE AMBIENTE E SECRETS — NUNCA versionar
+# ============================================================
 .env
 .env.*
 !.env.example
+!.env.sample
+!.env.template
+*.key
+*.pem
+*.p12
+*.pfx
+service-account*.json
+*-credentials.json
+secrets/
+vault/
+credentials/
+
+# ============================================================
+# SISTEMA OPERACIONAL
+# ============================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# ARQUIVOS DE IA, AGENTES, PROMPTS E FERRAMENTAS
+# Estes arquivos sao configuracao da IDE/ferramenta do dev.
+# Nunca devem entrar no repositorio.
+# ============================================================
+.claude/
+.cursor/
+.aider*
+.aider.tags.cache.v3/
+.continue/
+.copilot/
+.ai/
+*.agent.md
+*AGENT*.md
+*INIT*.md
+*SKILL*.md
+*skill*.md
+agents/
+skills/
+prompts/
+.prompts/
+copilot-instructions.md
+.github/copilot-instructions.md
+**/.claude/
+**/agents/
+**/skills/
+**/*.agent.md
+*.ai-draft.*
+*.ai-output.*
+
+# ============================================================
+# ARQUIVOS DE STRESS TEST / TEMPORARIOS DO PROJETO
+# ============================================================
+relatorio-completo.json
+stress-resultado.json
+dashboard-pos-e2e.png
+pos-stress-dashboard.png
+pos-stress-relatorios.png
+relatorios-pre-stress.png
+src/main/frontend/playwright.stress.config.js
+src/main/frontend/tests/e2e/stress-api.js
+src/main/frontend/tests/e2e/stress-api-v2.js
+src/main/frontend/tests/e2e/stress-pos-carga.js
+src/main/frontend/tests/e2e/stress-completo.spec.js
+src/main/frontend/tests/e2e/abrir-relatorios.js

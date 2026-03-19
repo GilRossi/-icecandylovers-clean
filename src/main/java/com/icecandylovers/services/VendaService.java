@@ -8,10 +8,10 @@ import com.icecandylovers.repositories.VendaRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +24,6 @@ public class VendaService {
     private final VendaItemRepository vendaItemRepository;
     private final ProdutoService produtoService;
 
-    @Autowired
     public VendaService(VendaRepository vendaRepository, VendaItemRepository vendaItemRepository, ProdutoService produtoService) {
         this.vendaRepository = vendaRepository;
         this.vendaItemRepository = vendaItemRepository;
@@ -143,6 +142,49 @@ public class VendaService {
     public List<Venda> listarVendas() {
         logger.info("Listando todas as vendas");
         return vendaRepository.findAllWithItens();
+    }
+
+    // Total vendas mês atual
+    public BigDecimal calcularTotalVendasMes() {
+        logger.info("Calculando total de vendas do mês atual");
+        BigDecimal total = vendaRepository.findTotalVendasMesAtual();
+        return total != null ? total : BigDecimal.ZERO;
+    }
+
+    // Crescimento vs mês anterior (retorna percentual como Double)
+    public Double calcularCrescimentoMensal() {
+        logger.info("Calculando crescimento mensal");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime inicioMesAtual = now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime inicioMesAnterior = inicioMesAtual.minusMonths(1);
+
+        BigDecimal mesAtual = vendaRepository.findTotalVendasPorPeriodo(inicioMesAtual, now);
+        BigDecimal mesAnterior = vendaRepository.findTotalVendasPorPeriodo(inicioMesAnterior, inicioMesAtual);
+
+        mesAtual = mesAtual != null ? mesAtual : BigDecimal.ZERO;
+        mesAnterior = mesAnterior != null ? mesAnterior : BigDecimal.ZERO;
+
+        if (mesAnterior.compareTo(BigDecimal.ZERO) == 0) return null;
+        return mesAtual.subtract(mesAnterior).divide(mesAnterior, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).doubleValue();
+    }
+
+    // Ticket médio do mês atual
+    public BigDecimal calcularTicketMedioMes() {
+        logger.info("Calculando ticket médio do mês atual");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime inicioMes = now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        BigDecimal totalMes = vendaRepository.findTotalVendasPorPeriodo(inicioMes, now);
+        Long countMes = vendaRepository.countVendasByPeriod(inicioMes, now);
+
+        totalMes = totalMes != null ? totalMes : BigDecimal.ZERO;
+        if (countMes == null || countMes == 0) return BigDecimal.ZERO;
+        return totalMes.divide(BigDecimal.valueOf(countMes), 2, RoundingMode.HALF_UP);
+    }
+
+    // Top 5 produtos mais vendidos
+    public List<Object[]> listarTop5ProdutosMaisVendidos() {
+        logger.info("Listando top 5 produtos mais vendidos");
+        return vendaRepository.findTop5ProdutosAllTime();
     }
 
     // Deletar uma venda

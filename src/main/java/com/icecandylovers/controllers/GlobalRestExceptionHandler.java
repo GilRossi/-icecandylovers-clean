@@ -1,6 +1,7 @@
 package com.icecandylovers.controllers;
 
 import com.icecandylovers.exceptions.DuplicateResourceException;
+import com.icecandylovers.exceptions.InsufficientStockException;
 import com.icecandylovers.exceptions.ResourceNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -54,6 +55,14 @@ public class GlobalRestExceptionHandler {
         body.put("success", false);
         body.put("error", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
+
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<Map<String, Object>> handleInsufficientStock(InsufficientStockException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("success", false);
+        body.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(body);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

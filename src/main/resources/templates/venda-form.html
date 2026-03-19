@@ -62,6 +62,12 @@
                         <i class="bi bi-bar-chart-fill me-2"></i> Relatórios
                     </a>
                 </li>
+                <!-- Promoções -->
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/promocoes}">
+                        <i class="bi bi-tag-fill me-2"></i> Promoções
+                    </a>
+                </li>
                 <!-- Sair -->
                 <li class="nav-item">
                     <form th:action="@{/logout}" method="post" id="logoutForm" style="display: inline;">
@@ -119,6 +125,14 @@
                             </select>
                         </div>
 
+                        <!-- Painel de Promoções Ativas -->
+                        <div id="promocoesPanel" class="mb-3" style="display: none;">
+                            <div class="alert alert-success mb-0 py-2">
+                                <h6 class="mb-1"><i class="bi bi-tag-fill me-1"></i> Promoções Ativas</h6>
+                                <ul id="promocoesList" class="mb-0 ps-3 small"></ul>
+                            </div>
+                        </div>
+
                         <!-- Local da Venda -->
                         <div class="mb-3">
                             <label for="vendido" class="form-label fw-bold">Local da Venda</label>
@@ -140,6 +154,7 @@
                                 <option value="CARTÃO DEBITO" th:selected="${venda.formaPagamento == 'CARTÃO DEBITO'}">Cartão de Débito</option>
                                 <option value="PIX" th:selected="${venda.formaPagamento == 'PIX'}">PIX</option>
                                 <option value="DINHEIRO" th:selected="${venda.formaPagamento == 'DINHEIRO'}">Dinheiro</option>
+                                <option value="BOLETO" th:selected="${venda.formaPagamento == 'BOLETO'}">Boleto</option>
                             </select>
                         </div>
 
@@ -195,5 +210,49 @@
 <!-- Scripts Personalizados -->
 <script src="/js/venda-scripts.js"></script>
 <script src="/js/logout.js"></script>
+
+<script>
+(function () {
+    'use strict';
+    const produtoSelect = document.getElementById('produtoId');
+    const promocoesPanel = document.getElementById('promocoesPanel');
+    const promocoesList = document.getElementById('promocoesList');
+
+    if (!produtoSelect || !promocoesPanel || !promocoesList) return;
+
+    async function carregarPromocoes(produtoId) {
+        promocoesPanel.style.display = 'none';
+        promocoesList.innerHTML = '';
+        if (!produtoId) return;
+        try {
+            const resp = await fetch('/promocoes/produto/' + encodeURIComponent(produtoId));
+            if (!resp.ok) return;
+            const promocoes = await resp.json();
+            const ativas = promocoes.filter(p => p.ativo);
+            if (ativas.length === 0) return;
+            ativas.forEach(p => {
+                const li = document.createElement('li');
+                const desconto = p.tipo === 'PERCENTUAL'
+                    ? p.valor + '% de desconto'
+                    : 'R$ ' + parseFloat(p.valor).toFixed(2).replace('.', ',') + ' de desconto';
+                li.textContent = p.nome + ' — ' + desconto;
+                promocoesList.appendChild(li);
+            });
+            promocoesPanel.style.display = 'block';
+        } catch (e) {
+            // silencia erros de rede para não bloquear o formulário
+        }
+    }
+
+    produtoSelect.addEventListener('change', function () {
+        carregarPromocoes(this.value);
+    });
+
+    // Carrega promoções para o produto já selecionado (modo edição)
+    if (produtoSelect.value) {
+        carregarPromocoes(produtoSelect.value);
+    }
+})();
+</script>
 </body>
 </html>

@@ -23,8 +23,10 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
 
     List<Venda> findByDataVendaBetween(LocalDateTime start, LocalDateTime end);
 
+    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto ORDER BY v.dataVenda DESC LIMIT 10")
     List<Venda> findTop10ByOrderByDataVendaDesc();
 
+    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto ORDER BY v.dataVenda DESC LIMIT 5")
     List<Venda> findTop5ByOrderByDataVendaDesc();
 
     @Query("SELECT SUM(v.total) FROM Venda v WHERE v.dataVenda BETWEEN :start AND :end")
@@ -74,15 +76,6 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
             @Param("limit") int limit
     );
 
-    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual > 10")
-    int countProdutosComEstoque();
-
-    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual BETWEEN 1 AND 10")
-    int countProdutosComEstoqueBaixo();
-
-    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual = 0")
-    int countProdutosSemEstoque();
-
     @Query("SELECT COALESCE(SUM(p.precoCusto * vi.quantidade), 0) " +
             "FROM Venda v JOIN v.itens vi JOIN vi.produto p " +
             "WHERE v.dataVenda BETWEEN :start AND :end " +
@@ -113,9 +106,18 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
             "GROUP BY v.formaPagamento")
     List<Object[]> findVendasAgrupadasPorFormaPagamentoAndChannel(LocalDateTime start, LocalDateTime end, Vendido canal);
 
-    @Query("SELECT v FROM Venda v LEFT JOIN FETCH v.itens WHERE v.id = :id")
+    @Query("SELECT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto WHERE v.id = :id")
     Optional<Venda> findByIdWithItens(@Param("id") Long id);
 
-    @Query("SELECT v FROM Venda v LEFT JOIN FETCH v.itens")
+    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto")
     List<Venda> findAllWithItens();
+
+    @Query("SELECT COALESCE(SUM(v.total), 0) FROM Venda v WHERE YEAR(v.dataVenda) = YEAR(CURRENT_TIMESTAMP) AND MONTH(v.dataVenda) = MONTH(CURRENT_TIMESTAMP)")
+    BigDecimal findTotalVendasMesAtual();
+
+    @Query("SELECT COALESCE(SUM(v.total), 0) FROM Venda v WHERE v.dataVenda >= :start AND v.dataVenda < :end")
+    BigDecimal findTotalVendasPorPeriodo(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    @Query("SELECT vi.produto.sabor, SUM(vi.quantidade) as total FROM VendaItem vi GROUP BY vi.produto.sabor ORDER BY total DESC LIMIT 5")
+    List<Object[]> findTop5ProdutosAllTime();
 }

@@ -88,9 +88,9 @@ public class RelatorioService {
 
     private Map<String, Integer> calcularStatusEstoque() {
         Map<String, Integer> estoque = new HashMap<>();
-        estoque.put("EM_ESTOQUE", vendaRepository.countProdutosComEstoque());
-        estoque.put("BAIXO_ESTOQUE", vendaRepository.countProdutosComEstoqueBaixo());
-        estoque.put("SEM_ESTOQUE", vendaRepository.countProdutosSemEstoque());
+        estoque.put("EM_ESTOQUE", produtoRepository.countProdutosComEstoque());
+        estoque.put("BAIXO_ESTOQUE", produtoRepository.countProdutosComEstoqueBaixo());
+        estoque.put("SEM_ESTOQUE", produtoRepository.countProdutosSemEstoque());
         return estoque;
     }
 

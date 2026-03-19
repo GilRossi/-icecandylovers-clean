@@ -75,6 +75,7 @@ public class PromocaoService {
         return toDTO(atualizada);
     }
 
+    @Transactional
     public List<PromocaoDTO> listarTodas() {
         logger.info("Listando todas as promoções");
         return promocaoRepository.findAll().stream()
@@ -82,6 +83,7 @@ public class PromocaoService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<PromocaoDTO> listarAtivas() {
         logger.info("Listando promoções ativas para hoje");
         return promocaoRepository.findAllActive(LocalDate.now()).stream()
@@ -89,6 +91,7 @@ public class PromocaoService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<PromocaoDTO> buscarPromocoesParaProduto(Long produtoId) {
         logger.info("Buscando promoções ativas para produto ID: {}", produtoId);
         return promocaoRepository.findActiveByProdutoId(produtoId, LocalDate.now()).stream()
@@ -107,6 +110,7 @@ public class PromocaoService {
         }
     }
 
+    @Transactional
     public BigDecimal calcularMelhorDesconto(Long produtoId, BigDecimal precoOriginal) {
         logger.info("Calculando melhor desconto para produto ID: {}", produtoId);
         List<Promocao> promocoes = promocaoRepository.findActiveByProdutoId(produtoId, LocalDate.now());

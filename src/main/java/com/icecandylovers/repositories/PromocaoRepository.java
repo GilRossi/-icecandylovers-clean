@@ -21,4 +21,6 @@ public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
 
     @Query("SELECT p FROM Promocao p WHERE p.ativo = true AND p.dataInicio <= :hoje AND p.dataFim >= :hoje")
     List<Promocao> findAllActive(@Param("hoje") LocalDate hoje);
+    @Query("SELECT p FROM Promocao p JOIN p.produtos prod WHERE prod.id = :produtoId")
+    List<Promocao> findAllByProdutoId(@Param("produtoId") Long produtoId);
 }

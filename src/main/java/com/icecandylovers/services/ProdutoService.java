@@ -9,6 +9,7 @@ import com.icecandylovers.exceptions.ResourceNotFoundException;
 import com.icecandylovers.repositories.IngredienteRepository;
 import com.icecandylovers.repositories.LoteIngredienteRepository;
 import com.icecandylovers.repositories.ProdutoRepository;
+import com.icecandylovers.repositories.PromocaoRepository;
 import com.icecandylovers.repositories.VendaItemRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -31,17 +32,20 @@ public class ProdutoService {
     private final IngredienteRepository ingredienteRepository;
     private final LoteIngredienteRepository loteIngredienteRepository;
     private final VendaItemRepository vendaItemRepository;
+    private final PromocaoRepository promocaoRepository;
     private final IngredienteService ingredienteService;
 
     public ProdutoService(ProdutoRepository produtoRepository,
                           IngredienteRepository ingredienteRepository,
                           LoteIngredienteRepository loteIngredienteRepository,
                           VendaItemRepository vendaItemRepository,
+                          PromocaoRepository promocaoRepository,
                           IngredienteService ingredienteService) {
         this.produtoRepository = produtoRepository;
         this.ingredienteRepository = ingredienteRepository;
         this.loteIngredienteRepository = loteIngredienteRepository;
         this.vendaItemRepository = vendaItemRepository;
+        this.promocaoRepository = promocaoRepository;
         this.ingredienteService = ingredienteService;
     }
 
@@ -102,6 +106,9 @@ public class ProdutoService {
             throw new IllegalStateException("Não é possível deletar o produto '" + produto.getSabor() +
                     "' pois possui vendas registradas");
         }
+        // Desassociar de promoções antes de deletar
+        promocaoRepository.findAllByProdutoId(id).forEach(p -> p.getProdutos().remove(produto));
+        promocaoRepository.flush();
         produtoRepository.delete(produto);
         logger.debug("Produto deletado com sucesso: {}", id);
     }
@@ -230,9 +237,10 @@ public class ProdutoService {
     }
 
     // Listar produtos com estoque baixo (1 a 10 unidades)
+    @Transactional
     public List<ProdutoDTO> listarProdutosEstoqueBaixo() {
         logger.info("Listando produtos com estoque baixo");
-        return produtoRepository.findAll().stream()
+        return produtoRepository.findAllWithIngredientes().stream()
                 .filter(p -> p.getEstoqueAtual() != null && p.getEstoqueAtual() > 0 && p.getEstoqueAtual() <= 10)
                 .map(this::toDTO)
                 .collect(Collectors.toList());

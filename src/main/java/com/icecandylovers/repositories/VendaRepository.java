@@ -23,8 +23,10 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
 
     List<Venda> findByDataVendaBetween(LocalDateTime start, LocalDateTime end);
 
+    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto ORDER BY v.dataVenda DESC LIMIT 10")
     List<Venda> findTop10ByOrderByDataVendaDesc();
 
+    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto ORDER BY v.dataVenda DESC LIMIT 5")
     List<Venda> findTop5ByOrderByDataVendaDesc();
 
     @Query("SELECT SUM(v.total) FROM Venda v WHERE v.dataVenda BETWEEN :start AND :end")
@@ -104,10 +106,10 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
             "GROUP BY v.formaPagamento")
     List<Object[]> findVendasAgrupadasPorFormaPagamentoAndChannel(LocalDateTime start, LocalDateTime end, Vendido canal);
 
-    @Query("SELECT v FROM Venda v LEFT JOIN FETCH v.itens WHERE v.id = :id")
+    @Query("SELECT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto WHERE v.id = :id")
     Optional<Venda> findByIdWithItens(@Param("id") Long id);
 
-    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens")
+    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens vi LEFT JOIN FETCH vi.produto")
     List<Venda> findAllWithItens();
 
     @Query("SELECT COALESCE(SUM(v.total), 0) FROM Venda v WHERE YEAR(v.dataVenda) = YEAR(CURRENT_TIMESTAMP) AND MONTH(v.dataVenda) = MONTH(CURRENT_TIMESTAMP)")

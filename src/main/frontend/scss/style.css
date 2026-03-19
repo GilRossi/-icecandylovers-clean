@@ -1,0 +1,670 @@
+/* Definição de variáveis de cores globais */
+:root {
+    --primary-color: #9370DB; /* Cor primária: Roxo médio */
+    --secondary-color: #FF99CC; /* Cor secundária: Rosa claro */
+    --accent-color: #FFD700; /* Cor de destaque: Amarelo dourado */
+    --text-dark: #2E2E2E; /* Texto escuro: Cinza quase preto */
+    --text-light: #FFFFFF; /* Texto claro: Branco puro */
+}
+
+/* Estilos gerais do corpo da página */
+body {
+    background-color: #F8F9FA; /* Fundo cinza claro para contraste suave */
+    color: var(--text-dark); /* Cor padrão do texto */
+}
+
+/* Estilo da barra de navegação padrão */
+.navbar-ice {
+    background: var(--primary-color) !important; /* Fundo roxo */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Sombra sutil para profundidade */
+}
+
+/* Estilo da barra lateral */
+.sidebar {
+    background: white; /* Fundo branco para contraste */
+    min-height: 100vh; /* Altura mínima para ocupar toda a tela vertical */
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05); /* Sombra leve à direita */
+}
+
+/* Ajuste da barra lateral em telas menores */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto; /* Remove altura mínima em mobile */
+        margin-bottom: 1rem; /* Espaço inferior para separação */
+    }
+}
+
+/* Estilo dos cartões de métricas */
+.card-metric {
+    border: none; /* Sem borda para um visual limpo */
+    border-radius: 15px; /* Bordas arredondadas */
+    transition: transform 0.3s; /* Animação suave ao passar o mouse */
+}
+
+.card-metric:hover {
+    transform: translateY(-5px); /* Eleva o cartão ao passar o mouse */
+}
+
+/* Variações de cor dos cartões */
+.card-primary {
+    background: linear-gradient(135deg, var(--primary-color), #5AB0B2); /* Gradiente roxo para teal */
+    color: var(--text-light); /* Texto branco */
+}
+
+.card-secondary {
+    background: linear-gradient(135deg, var(--secondary-color), #FF80B5); /* Gradiente rosa claro para rosa escuro */
+    color: var(--text-light); /* Texto branco */
+}
+
+/* Estilo da tabela responsiva */
+.table-responsive-ice {
+    background: white; /* Fundo branco */
+    border-radius: 15px; /* Bordas arredondadas */
+    overflow: hidden; /* Evita que conteúdo vaze */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Sombra leve */
+}
+
+.table-ice thead {
+    background: var(--primary-color); /* Cabeçalho roxo */
+    color: white; /* Texto branco */
+}
+
+/* Estilo padrão dos botões */
+.btn-ice {
+    background: var(--secondary-color); /* Fundo rosa claro */
+    color: white; /* Texto branco */
+    border-radius: 25px; /* Bordas bem arredondadas */
+    padding: 8px 25px; /* Espaçamento interno */
+    border: none; /* Sem borda */
+}
+
+.btn-ice:hover {
+    background: var(--primary-color); /* Roxo ao passar o mouse */
+    color: white; /* Mantém texto branco */
+}
+
+/* Variação secundária dos botões */
+.btn-secondary-icl {
+    background: var(--primary-color); /* Fundo roxo */
+    color: white; /* Texto branco */
+    border-radius: 25px; /* Bordas arredondadas */
+    padding: 8px 25px; /* Espaçamento interno */
+    border: none; /* Sem borda */
+}
+
+.btn-secondary-icl:hover {
+    background: var(--secondary-color); /* Rosa claro ao passar o mouse */
+    color: white; /* Mantém texto branco */
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 576px) {
+    .mobile-text-md {
+        font-size: 0.9rem; /* Reduz tamanho do texto */
+    }
+    .mobile-hide {
+        display: none; /* Esconde elementos em mobile */
+    }
+    .card-metric {
+        margin-bottom: 1rem; /* Espaço entre cartões */
+    }
+}
+
+/* Estilo do cartão de login */
+.login-card {
+    max-width: 400px; /* Largura máxima */
+    margin: 5rem auto; /* Centraliza vertical e horizontalmente */
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Sombra para profundidade */
+}
+
+.brand-logo {
+    padding: 2rem; /* Espaçamento interno */
+    text-align: center; /* Centraliza conteúdo */
+    border-radius: 15px 15px 0 0; /* Bordas arredondadas só no topo */
+}
+
+.brand-text {
+    font-size: 1.5rem; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    color: white; /* Texto branco */
+}
+
+.login-form {
+    padding: 2rem; /* Espaçamento interno */
+    background: white; /* Fundo branco */
+    border-radius: 0 0 15px 15px; /* Bordas arredondadas só na base */
+}
+
+/* Campos de entrada somente leitura */
+.input:read-only {
+    background-color: #f8f9fa; /* Fundo cinza claro */
+    cursor: not-allowed; /* Cursor indicando inatividade */
+}
+
+/* Campos de entrada editáveis */
+.input:not([disabled]) {
+    background-color: white !important; /* Força fundo branco */
+    cursor: text; /* Cursor de texto */
+}
+
+/* Ajuste de z-index para modais */
+.modal-backdrop {
+    z-index: 1040 !important; /* Fundo do modal */
+}
+.modal {
+    z-index: 1050 !important; /* Modal acima do fundo */
+}
+
+/* Destaque visual */
+.highlight {
+    background-color: #f0f8ff; /* Fundo azul claro */
+    transition: background-color 0.5s ease; /* Transição suave */
+}
+
+/* Mensagens de sucesso */
+.alert-success {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Texto verde escuro */
+    border-color: #c3e6cb; /* Borda verde */
+}
+
+/* Mensagens de erro */
+.alert-danger {
+    background-color: #f8d7da; /* Vermelho claro */
+    color: #721c24; /* Texto vermelho escuro */
+    border-color: #f5c6cb; /* Borda vermelha */
+}
+
+/* Links desativados na navegação */
+.nav-link.disabled {
+    pointer-events: none; /* Impede cliques */
+    color: #6c757d; /* Cinza para indicar desativado */
+}
+
+/* Controle da sidebar em mobile */
+#sidebarCollapse.collapse:not(.show) {
+    display: none; /* Esconde por padrão em mobile */
+}
+#sidebarCollapse.collapse.show {
+    display: block; /* Mostra quando ativada */
+}
+@media (min-width: 992px) {
+    #sidebarCollapse.collapse {
+        display: block; /* Sempre visível em desktop */
+    }
+}
+
+/* Estilo do gráfico de pizza */
+#graficoPizza {
+    height: 100%; /* Ocupa toda a altura do contêiner */
+    min-height: 200px; /* Altura mínima */
+}
+
+/* Coluna de ingredientes na tabela */
+.table-ice td.mobile-hide {
+    white-space: nowrap; /* Impede quebras de linha */
+    overflow: hidden; /* Esconde excesso */
+    text-overflow: ellipsis; /* Adiciona "..." */
+    max-width: 200px; /* Limite de largura */
+}
+
+/* Estilo dos badges */
+.badge {
+    display: inline-block; /* Alinha badges horizontalmente */
+    margin-right: 5px; /* Espaço entre badges */
+    white-space: nowrap; /* Impede quebras */
+}
+
+/* Toast de sucesso */
+#successToast {
+    position: fixed; /* Fixo na tela */
+    top: 20px; /* Distância do topo */
+    right: 20px; /* Distância da direita */
+    z-index: 1050; /* Acima de outros elementos */
+}
+#successToast .toast-header {
+    background-color: #9370DB; /* Roxo */
+    color: white; /* Texto branco */
+}
+
+/* Estilos específicos da Index Page */
+body.index {
+    background-color: #f5f5f5; /* Fundo cinza claro */
+    color: var(--text-dark); /* Texto escuro */
+    font-family: 'Poppins', sans-serif; /* Fonte personalizada */
+}
+
+/* Barra de navegação da Index Page */
+.index .navbar {
+    background: var(--primary-color) !important; /* Roxo */
+    padding: 1rem 2rem; /* Espaçamento interno */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+.index .navbar-brand img {
+    height: auto; /* Altura automática */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra na logo */
+    opacity: 0.8; /* Leve transparência */
+}
+.index .navbar-brand span {
+    font-size: 1.5rem; /* Tamanho da fonte */
+    font-weight: 600; /* Negrito */
+    color: var(--text-light); /* Texto branco */
+    margin-left: 10px; /* Espaço à esquerda */
+}
+
+/* Seção principal da Index Page */
+.index .secao-principal {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* Gradiente roxo para rosa */
+    color: var(--text-light); /* Texto branco */
+    padding: 5rem 0; /* Espaçamento vertical */
+    text-align: center; /* Centralizado */
+    position: relative; /* Para elementos posicionados */
+    overflow: hidden; /* Evita vazamento */
+}
+.index .secao-principal h1 {
+    font-size: 3.5rem; /* Tamanho grande */
+    font-weight: 600; /* Negrito */
+    margin-bottom: 1rem; /* Espaço inferior */
+}
+.index .secao-principal p {
+    font-size: 1.2rem; /* Tamanho médio */
+    margin-bottom: 2rem; /* Espaço inferior */
+}
+.index .secao-principal .btn {
+    background: var(--secondary-color); /* Rosa claro */
+    color: var(--text-dark); /* Texto escuro */
+    font-weight: 600; /* Negrito */
+    padding: 0.75rem 2rem; /* Espaçamento interno */
+    border: none; /* Sem borda */
+    border-radius: 25px; /* Bordas arredondadas */
+    transition: background-color 0.3s; /* Transição suave */
+}
+.index .secao-principal .btn:hover {
+    background: var(--primary-color); /* Roxo ao passar o mouse */
+    color: var(--text-light); /* Texto branco */
+}
+
+/* Seção Sobre */
+.index .secao-sobre {
+    padding: 4rem 0; /* Espaçamento vertical */
+    background-color: white; /* Fundo branco */
+    text-align: center; /* Centralizado */
+}
+.index .secao-sobre h2 {
+    color: var(--primary-color); /* Roxo */
+    font-size: 2.5rem; /* Tamanho grande */
+    margin-bottom: 1rem; /* Espaço inferior */
+}
+.index .secao-sobre p {
+    font-size: 1.1rem; /* Tamanho médio */
+    color: #666; /* Cinza médio */
+    max-width: 800px; /* Largura máxima */
+    margin: 0 auto; /* Centraliza */
+}
+
+/* Seção de Produtos */
+.index .secao-produtos {
+    padding: 4rem 0; /* Espaçamento vertical */
+    background-color: #f5f5f5; /* Fundo cinza claro */
+}
+.index .secao-produtos h2 {
+    text-align: center; /* Centralizado */
+    color: var(--primary-color); /* Roxo */
+    font-size: 2.5rem; /* Tamanho grande */
+    margin-bottom: 3rem; /* Espaço inferior */
+}
+.index .cartao-produto {
+    background-color: white; /* Fundo branco */
+    border: none; /* Sem borda */
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Sombra leve */
+    padding: 1.5rem; /* Espaçamento interno */
+    text-align: center; /* Centralizado */
+    transition: transform 0.3s; /* Animação ao passar o mouse */
+}
+.index .cartao-produto:hover {
+    transform: translateY(-5px); /* Eleva ao passar o mouse */
+}
+.index .cartao-produto img {
+    width: 100%; /* Largura total */
+    border-radius: 10px; /* Bordas arredondadas */
+    margin-bottom: 1rem; /* Espaço inferior */
+}
+.index .cartao-produto h5 {
+    color: var(--primary-color); /* Roxo */
+    font-size: 1.25rem; /* Tamanho médio */
+    margin-bottom: 0.5rem; /* Espaço inferior */
+}
+.index .cartao-produto p {
+    color: #666; /* Cinza médio */
+    font-size: 0.9rem; /* Tamanho pequeno */
+}
+
+/* Seção de Depoimentos */
+.index .secao-depoimentos {
+    padding: 4rem 0; /* Espaçamento vertical */
+    background: var(--secondary-color); /* Rosa claro */
+    color: var(--text-light); /* Texto branco */
+    text-align: center; /* Centralizado */
+}
+.index .secao-depoimentos h2 {
+    font-size: 2.5rem; /* Tamanho grande */
+    margin-bottom: 3rem; /* Espaço inferior */
+}
+.index .cartao-depoimento {
+    background-color: rgba(255, 255, 255, 0.2); /* Branco translúcido */
+    border-radius: 15px; /* Bordas arredondadas */
+    padding: 2rem; /* Espaçamento interno */
+    margin: 0 1rem; /* Margem horizontal */
+}
+.index .cartao-depoimento p {
+    font-style: italic; /* Itálico para depoimentos */
+    margin-bottom: 1rem; /* Espaço inferior */
+}
+.index .cartao-depoimento h6 {
+    font-weight: 600; /* Negrito */
+}
+
+/* Seção de Chamada para Ação */
+.index .secao-chamada {
+    padding: 4rem 0; /* Espaçamento vertical */
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* Gradiente roxo para rosa */
+    text-align: center; /* Centralizado */
+    color: var(--text-light); /* Texto branco */
+}
+.index .secao-chamada h2 {
+    font-size: 2.5rem; /* Tamanho grande */
+    margin-bottom: 1rem; /* Espaço inferior */
+}
+.index .secao-chamada p {
+    font-size: 1.1rem; /* Tamanho médio */
+    margin-bottom: 2rem; /* Espaço inferior */
+}
+.index .secao-chamada .btn {
+    background: var(--secondary-color); /* Rosa claro */
+    color: var(--text-dark); /* Texto escuro */
+    font-weight: 600; /* Negrito */
+    padding: 0.75rem 2rem; /* Espaçamento interno */
+    border: none; /* Sem borda */
+    border-radius: 25px; /* Bordas arredondadas */
+    transition: background-color 0.3s; /* Transição suave */
+    margin: 0 10px; /* Margem horizontal */
+}
+.index .secao-chamada .btn:hover {
+    background: var(--primary-color); /* Roxo ao passar o mouse */
+    color: var(--text-light); /* Texto branco */
+}
+
+/* Rodapé da Index Page */
+.index .rodape {
+    background: var(--primary-color); /* Roxo */
+    color: var(--text-light); /* Texto branco */
+    padding: 2rem 0; /* Espaçamento vertical */
+    text-align: center; /* Centralizado */
+}
+.index .rodape p {
+    margin: 0; /* Sem margem */
+    font-size: 0.9rem; /* Tamanho pequeno */
+}
+.index .rodape a {
+    color: var(--secondary-color); /* Rosa claro */
+    text-decoration: none; /* Sem sublinhado */
+    margin: 0 10px; /* Margem horizontal */
+}
+.index .rodape a:hover {
+    color: #FF80B5; /* Rosa mais escuro ao passar o mouse */
+}
+
+/* Botão flutuante para abrir o chat */
+#chat-toggle {
+    position: fixed; /* Fixo na tela */
+    bottom: 20px; /* Distância da base */
+    right: 20px; /* Distância da direita */
+    z-index: 1050; /* Acima de outros elementos */
+    background: var(--secondary-color); /* Rosa claro */
+    color: var(--text-light); /* Texto branco */
+    border-radius: 50%; /* Circular */
+    width: 50px; /* Largura fixa */
+    height: 50px; /* Altura fixa */
+    display: flex; /* Centraliza ícone */
+    align-items: center; /* Alinhamento vertical */
+    justify-content: center; /* Alinhamento horizontal */
+    font-size: 1.5rem; /* Tamanho do ícone */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+#chat-toggle:hover {
+    background: var(--primary-color); /* Roxo ao passar o mouse */
+}
+
+/* Contêiner do chat */
+#chat-container {
+    position: fixed; /* Fixo na tela */
+    bottom: 20px; /* Distância da base */
+    right: 20px; /* Distância da direita */
+    max-width: 320px; /* Largura máxima */
+    max-height: 450px; /* Altura máxima */
+    width: 90%; /* Ajustável em telas menores */
+    background: #fff; /* Fundo branco */
+    border: 1px solid var(--primary-color); /* Borda roxa */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    display: none; /* Inicia escondido */
+    flex-direction: column; /* Itens em coluna */
+    z-index: 1050; /* Acima de outros elementos */
+}
+
+/* Cabeçalho do chat */
+#chat-header {
+    background: var(--primary-color); /* Roxo */
+    color: var(--text-light); /* Texto branco */
+    padding: 10px; /* Espaçamento interno */
+    text-align: center; /* Centralizado */
+    font-weight: 600; /* Negrito */
+    border-top-left-radius: 8px; /* Canto superior esquerdo arredondado */
+    border-top-right-radius: 8px; /* Canto superior direito arredondado */
+}
+
+/* Área de mensagens do chat */
+#chat-messages {
+    flex-grow: 1; /* Cresce para ocupar espaço disponível */
+    padding: 10px; /* Espaçamento interno */
+    overflow-y: auto; /* Rolagem vertical */
+    background: #f9f9f9; /* Fundo cinza claro */
+    min-height: 100px; /* Altura mínima */
+    max-height: 300px; /* Altura máxima para rolagem */
+}
+
+/* Área de entrada de texto e botão do chat */
+#chat-input-area {
+    display: flex; /* Layout flexível */
+    flex-direction: column; /* Organiza itens em coluna */
+    align-items: flex-start; /* Alinha à esquerda */
+    padding: 10px; /* Espaçamento interno */
+    border-top: 1px solid #ddd; /* Borda superior cinza */
+    background: #fff; /* Fundo branco */
+}
+
+/* Campo de entrada de texto do chat */
+#chat-input {
+    width: 100%; /* Ocupa toda a largura */
+    padding: 8px; /* Espaçamento interno */
+    border: 1px solid var(--primary-color); /* Borda roxa */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 0.9rem; /* Tamanho da fonte */
+    margin-bottom: 10px; /* Espaço abaixo para o botão */
+    outline: none; /* Remove contorno padrão */
+    transition: border-color 0.3s; /* Transição suave na borda */
+}
+#chat-input:focus {
+    border-color: var(--secondary-color); /* Rosa claro ao focar */
+}
+
+/* Botão de enviar do chat */
+#chat-send {
+    padding: 8px 15px; /* Espaçamento interno */
+    background: var(--secondary-color); /* Rosa claro */
+    color: var(--text-light); /* Texto branco */
+    border: none; /* Sem borda */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-weight: 600; /* Negrito */
+    cursor: pointer; /* Cursor de clique */
+    transition: background-color 0.3s; /* Transição suave */
+}
+#chat-send:hover {
+    background: var(--primary-color); /* Roxo ao passar o mouse */
+}
+
+/* Responsividade para o chat e outros elementos */
+@media (max-width: 576px) {
+    .index .secao-principal h1 {
+        font-size: 2.5rem; /* Reduz tamanho do título */
+    }
+    .index .secao-principal p {
+        font-size: 1rem; /* Reduz tamanho do texto */
+    }
+    .index .secao-chamada .btn {
+        display: block; /* Botões em coluna */
+        margin: 10px auto; /* Centraliza */
+        width: 80%; /* Largura ajustada */
+    }
+    #chat-container {
+        max-width: 90%; /* Ajusta largura em mobile */
+        right: 5%; /* Centraliza ligeiramente */
+        bottom: 10px; /* Mais próximo da base */
+        max-height: 350px; /* Reduz altura */
+    }
+    #chat-messages {
+        max-height: 200px; /* Menos espaço para mensagens */
+    }
+    #chat-input {
+        padding: 6px; /* Menos espaçamento */
+        font-size: 0.85rem; /* Fonte menor */
+    }
+    #chat-send {
+        padding: 6px 10px; /* Menos espaçamento */
+        font-size: 0.85rem; /* Fonte menor */
+    }
+}
+
+@media (max-width: 400px) {
+    #chat-container {
+        max-width: 95%; /* Ajuste fino para telas pequenas */
+        right: 2.5%; /* Centraliza mais */
+    }
+}
+
+/* Estilo da logo na barra de navegação */
+.navbar-brand img {
+    width: 100px; /* Largura fixa */
+    height: auto; /* Altura proporcional */
+}
+
+/* Estilo alternativo para logo com ID */
+#logo {
+    width: 100px; /* Largura fixa */
+    height: auto; /* Altura proporcional */
+}
+#chat-messages div {
+    transition: all 0.2s ease; /* Suaviza a entrada/saída de mensagens */
+}
+
+/* Adicione ao seu arquivo style.css */
+#modalProdutosBody {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-card {
+  transition: transform 0.2s;
+}
+
+.modal-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Em style.css */
+.cartao-produto .preco {
+    font-size: 1.2em;
+    color: #9370DB;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.btn-comprar {
+    background-color: #9370DB;
+    color: white;
+    margin-top: 10px;
+}
+
+.btn-comprar:hover {
+    background-color: #7B5D9D;
+}
+
+/* Estilo do Mega Menu */
+.mega-menu {
+    background: var(--primary-color) !important; /* Roxo */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 10px 0; /* Espaçamento interno */
+}
+
+.mega-menu .nav-link {
+    color: var(--text-light); /* Texto branco */
+    padding: 10px 20px; /* Espaçamento interno */
+    transition: all 0.3s ease; /* Animação suave */
+    font-weight: 500; /* Peso da fonte */
+}
+
+.mega-menu .nav-link:hover {
+    transform: scale(1.05); /* Aumenta ligeiramente */
+    background-color: #A68CD9; /* Tom mais claro de roxo */
+    border-radius: 5px; /* Bordas arredondadas */
+}
+
+.mega-menu .dropdown-menu {
+    background-color: #A68CD9; /* Fundo do dropdown */
+    border: none; /* Sem borda */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    animation: fadeIn 0.3s ease; /* Animação de entrada */
+}
+
+.mega-menu .dropdown-item {
+    color: var(--text-light); /* Texto branco */
+    transition: background-color 0.2s ease;
+}
+
+.mega-menu .dropdown-item:hover {
+    background-color: var(--primary-color); /* Roxo ao passar o mouse */
+}
+
+/* Novo estilo para submenus ativos */
+.mega-menu .dropdown-item.active {
+    background-color: var(--secondary-color); /* Rosa claro (#FF99CC) para o item ativo */
+    color: var(--text-dark); /* Texto escuro para contraste */
+    font-weight: 600; /* Negrito para destaque */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mega-menu .nav-link.active {
+    background-color: #A68CD9; /* Destaque do item ativo */
+    border-radius: 5px; /* Bordas arredondadas */
+}
+
+/* Responsividade */
+@media (max-width: 991px) {
+    .mega-menu .navbar-nav {
+        background-color: var(--primary-color); /* Fundo roxo em mobile */
+        padding: 10px; /* Espaçamento interno */
+        border-radius: 5px; /* Bordas arredondadas */
+    }
+    .mega-menu .nav-link {
+        padding: 15px; /* Mais espaço em mobile */
+    }
+    .mega-menu .dropdown-menu {
+        margin-left: 10px; /* Ajuste de posição */
+    }
+}

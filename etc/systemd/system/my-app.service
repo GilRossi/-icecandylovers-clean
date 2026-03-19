@@ -1,0 +1,11 @@
+[Unit]
+Description=Projeto Ice Candy Lovers
+After=network.target
+
+[Service]
+User=ubuntu
+ExecStart=/home/ubuntu/nohup java -jar icecandylovers-0.0.1-SNAPSHOT.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

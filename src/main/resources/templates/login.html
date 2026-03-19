@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IceCandy Lovers - Login</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.ico">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:if="${param.registerDisabled}">
+    <div class="alert alert-warning" role="alert">
+        O registro de novos usuários está temporariamente desativado.
+    </div>
+</div>
+<div class="container">
+    <div class="login-card">
+        <div class="brand-logo" style="background-color:#9370DB;">
+            <div class="brand-text">
+                🍦 Ice Candy Lovers
+            </div>
+            <small class="text-white">Geladinho Gourmet</small>
+        </div>
+
+        <div class="login-form">
+            <form th:action="@{/login}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Usuário</label>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Senha</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-ice">
+                        Entrar
+                    </button>
+                </div>
+
+                <div th:if="${param.error}" class="alert alert-danger mt-3">
+                    Usuário ou senha inválidos!
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

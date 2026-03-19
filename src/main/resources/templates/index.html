@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Geladinhos Gourmet e Doces Artesanais em Praia Grande - Ice Candy Lovers</title>
+
+    <link rel="icon" type="image/png" href="/assets/favicon.ico">
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <meta name="description" content="Delicie-se com os melhores geladinhos gourmet e doces artesanais em Praia Grande, SP. Ingredientes frescos e sabores irresistíveis com a Ice Candy Lovers!">
+    <meta name="keywords" content="geladinhos gourmet Praia Grande, doces artesanais Praia Grande, geladinho gourmet alcoólico, sobremesas geladas SP, Ice Candy Lovers">
+    <meta name="author" content="Ice Candy Lovers">
+    <link rel="canonical" href="https://www.icecandylovers.com/">
+
+    <!-- Open Graph (SEO Social) -->
+    <meta property="og:title" content="Geladinhos Gourmet e Doces Artesanais em Praia Grande - Ice Candy Lovers">
+    <meta property="og:description" content="Delicie-se com os melhores geladinhos gourmet e doces artesanais em Praia Grande, SP.">
+    <meta property="og:image" content="https://www.icecandylovers.com/img/logo.png">
+    <meta property="og:url" content="https://www.icecandylovers.com/">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" onerror="this.href='/css/bootstrap.min.css';">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Schema Markup (JSON-LD) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Ice Candy Lovers",
+            "description": "Especialistas em geladinhos gourmet e doces artesanais feitos com ingredientes selecionados.",
+            "url": "https://www.icecandylovers.com/",
+            "email": "icecandyloverspg@gmail.com",
+            "telephone": "+55 13 90000-0000",
+            "sameAs": "https://www.instagram.com/icecandyloverspg/",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Av. 31 de Março, s/n",
+                "addressLocality": "Praia Grande",
+                "addressRegion": "SP",
+                "postalCode": "11704-700",
+                "addressCountry": "BR"
+            },
+            "openingHours": "Mo-Su 08:00-18:00",
+            "image": "https://www.icecandylovers.com/img/logo.png"
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Geladinhos Gourmet",
+            "description": "Seja para se refrescar nos dias quentes ou para curtir momentos especiais, os Geladinhos Gourmet são a escolha perfeita! Feitos com ingredientes selecionados, combinações irresistíveis e um toque de sofisticação, eles transformam o clássico geladinho em uma verdadeira experiência gastronômica.",
+            "brand": "Ice Candy Lovers",
+            "image": "https://www.icecandylovers.com/img/300x200_1.jpeg",
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": "BRL",
+                "availability": "https://schema.org/InStock"
+            }
+        }
+    </script>
+</head>
+<body class="index">
+<nav class="navbar">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/" title="Voltar à página inicial da Ice Candy Lovers">
+            <img src="/img/logo.png" alt="Logo Ice Candy Lovers - Geladinhos Gourmet em Praia Grande" loading="lazy">
+            <span>Ice Candy Lovers</span>
+        </a>
+    </div>
+</nav>
+
+<main>
+    <section class="secao-principal">
+        <div class="container">
+            <h1>Seja Bem-Vindo(a) à Ice Candy Lovers!</h1>
+            <p>Descubra o sabor dos nossos geladinhos gourmet e doces deliciosos, feitos com muito amor e ingredientes fresquinhos!</p>
+            <a href="#produtos" class="btn" title="Ver nossos produtos">Conheça Nossos Produtos</a>
+        </div>
+    </section>
+
+    <section class="secao-sobre">
+        <div class="container">
+            <h2>Quem Somos - Ice Candy Lovers</h2>
+            <p>Aqui na Ice Candy Lovers, acreditamos que um geladinho pode ser muito mais do que uma sobremesa gelada.
+                Nossos geladinhos gourmet são preparados com ingredientes de alta qualidade, sabores que surpreendem e um montão de carinho.
+                E não para por aí: também temos docinhos deliciosos que vão conquistar seu coração. Vem se deliciar com a gente!</p>
+        </div>
+    </section>
+
+    <section class="secao-sobre">
+        <div class="container">
+            <h2>Nossa História em Praia Grande</h2>
+            <p>A Ice Candy Lovers nasceu do sonho de levar alegria e sabor para os moradores e visitantes de Praia Grande, SP. Desde o início, nosso foco foi criar geladinhos gourmet e doces artesanais que unem qualidade, criatividade e o carinho de quem faz tudo à mão. Hoje, somos referência local em sobremesas geladas e docinhos que conquistam todos os paladares!</p>
+        </div>
+    </section>
+
+    <section class="secao-produtos" id="produtos">
+        <div class="container">
+            <h2>Nossos Geladinhos e Doces Gourmet</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="cartao-produto">
+                        <img src="/img/300x200_1.jpeg" alt="Geladinhos Gourmet artesanais em Praia Grande" loading="lazy">
+                        <h3>Geladinhos Gourmet</h3>
+                        <p style="text-align: justify;">Seja para se refrescar nos dias quentes ou para curtir momentos especiais, os Geladinhos Gourmet são a escolha perfeita!</p>
+                        <p style="text-align: justify;">Feitos com ingredientes selecionados, combinações irresistíveis e um toque de sofisticação, eles transformam o clássico geladinho em uma verdadeira experiência gastronômica. Experimente o sabor da felicidade em cada geladinho! 🥶💛</p>
+<!--                        <p class="preco">R$ 15,00 cada</p>-->
+<!--                        &lt;!&ndash; Botão para abrir o modal de venda &ndash;&gt;-->
+<!--                        <button class="btn btn-comprar"-->
+<!--                                data-preco="15.00"-->
+<!--                                data-produto="Geladinho Gourmet"-->
+<!--                                onclick="abrirModalVenda(this)">-->
+<!--                            <i class="bi bi-cart"></i> Comprar-->
+<!--                        </button>-->
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="cartao-produto">
+                        <img src="/img/300x200_2.jpeg" alt="Geladinhos Alcoólicos gourmet em Praia Grande" loading="lazy">
+                        <h3>Geladinhos Alcoólicos</h3>
+                        <p style="text-align: justify;">Combinando sabores intensos e ingredientes de alta qualidade, os Geladinhos Gourmet Alcoólicos são uma versão sofisticada e adulta dos tradicionais geladinhos.</p>
+                        <p style="text-align: justify;">🍷 Feitos com bebidas premium e ingredientes selecionados, eles unem a cremosidade e o sabor irresistível dos Geladinhos Gourmet com aquele toque especial de álcool.</p>
+<!--                        <p class="preco">R$ 15,00 cada</p>-->
+<!--                        &lt;!&ndash; Botão para abrir o modal de venda &ndash;&gt;-->
+<!--                        <button class="btn btn-comprar"-->
+<!--                                data-preco="15.00"-->
+<!--                                data-produto="Geladinho Alcoolico"-->
+<!--                                onclick="abrirModalVenda(this)">-->
+<!--                            <i class="bi bi-cart"></i> Comprar-->
+<!--                        </button>-->
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="cartao-produto">
+                        <img src="/img/300x200_3.jpeg" alt="Docinhos Gourmet artesanais em Praia Grande" loading="lazy">
+                        <h3>Docinhos Gourmet</h3>
+                        <p style="text-align: justify;">🎁✨Surpreenda-se com a Caixinha da Felicidade, uma seleção exclusiva de 4 docinhos gourmet, feitos com ingredientes de alta qualidade e muito carinho. Perfeita para presentear ou se deliciar, cada mordida é uma experiência única!</p>
+                        <p style="text-align: justify;">💝Ideal para presentear quem você ama ou tornar qualquer momento mais doce!</p>
+<!--                        <p class="preco">R$ 20,00 cada</p>-->
+<!--                        &lt;!&ndash; Botão para abrir o modal de venda &ndash;&gt;-->
+<!--                        <button class="btn btn-comprar"-->
+<!--                                data-preco="20.00"-->
+<!--                                data-produto="Docinho Gourmet"-->
+<!--                                onclick="abrirModalVenda(this)">-->
+<!--                            <i class="bi bi-cart"></i> Comprar-->
+<!--                        </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao-depoimentos">
+        <div class="container">
+            <h2>Depoimentos de Clientes Satisfeitos</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="cartao-depoimento" itemscope itemtype="https://schema.org/Review">
+                        <p itemprop="reviewBody">"Os geladinhos da Ice Candy Lovers são incríveis! Sabores únicos e uma cremosidade que faz toda a diferença!"</p>
+                        <h6 itemprop="author">- Ana Clara</h6>
+                        <meta itemprop="datePublished" content="2025-03-01">
+                        <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                                <meta itemprop="ratingValue" content="5">
+                                <meta itemprop="bestRating" content="5">
+                            </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="cartao-depoimento" itemscope itemtype="https://schema.org/Review">
+                        <p itemprop="reviewBody">"Melhor brigadeiro gourmet que já comi! Super recomendo para qualquer ocasião."</p>
+                        <h6 itemprop="author">- João Pedro</h6>
+                        <meta itemprop="datePublished" content="2025-03-02">
+                        <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                                <meta itemprop="ratingValue" content="5">
+                                <meta itemprop="bestRating" content="5">
+                            </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="cartao-depoimento" itemscope itemtype="https://schema.org/Review">
+                        <p itemprop="reviewBody">"Refrescante, saboroso e feito com carinho. Os geladinhos alcoólicos são sensacionais!"</p>
+                        <h6 itemprop="author">- Mariana</h6>
+                        <meta itemprop="datePublished" content="2025-03-03">
+                        <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                                <meta itemprop="ratingValue" content="5">
+                                <meta itemprop="bestRating" content="5">
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao-chamada">
+        <div class="container">
+            <h2>Experimente Nossos Sabores em Praia Grande!</h2>
+            <p>Entre em contato e saiba onde encontrar nossos geladinhos e doces artesanais. Peça já o seu!</p>
+            <a href="mailto:icecandyloverspg@gmail.com" class="btn" title="Envie um e-mail para Ice Candy Lovers">Fale com a Gente</a>
+        </div>
+    </section>
+</main>
+
+<!-- Botão flutuante para abrir o chat -->
+<button id="chat-toggle" class="btn-ice" title="Converse com Gelyto">
+    <i class="bi bi-chat-dots"></i>
+</button>
+
+<!-- Contêiner do chat (inicia oculto) -->
+<div id="chat-container" style="display: none;">
+    <div id="chat-header">
+        Converse com Gelyto
+        <button id="chat-close" class="btn-close btn-close-white" aria-label="Fechar"></button>
+    </div>
+    <div id="chat-messages"></div>
+    <div id="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
+        <button id="chat-send">Enviar</button>
+    </div>
+</div>
+
+<!--&lt;!&ndash; Modal de Listagem de Produtos &ndash;&gt;-->
+<!--<div class="modal fade" id="produtosModal" tabindex="-1">-->
+<!--    <div class="modal-dialog modal-lg">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header" style="background-color: #9370DB; color:white;">-->
+<!--                <h5 class="modal-title" id="modalCategoriaTitulo">Produtos</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body" id="modalProdutosBody">-->
+<!--                &lt;!&ndash; Lista de produtos será injetada aqui &ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Modal de Confirmação de Venda &ndash;&gt;-->
+<!--<div class="modal fade" id="vendaModal" tabindex="-1">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header" style="background-color: #9370DB; color:white;">-->
+<!--                <h5 class="modal-title">Confirmar Venda</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <form id="formVenda">-->
+<!--                    <input type="hidden" id="produtoId" name="produtoId">-->
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label">Produto</label>-->
+<!--                        <input type="text" class="form-control" id="produtoNome" readonly>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label">Preço Unitário</label>-->
+<!--                        <input type="number" class="form-control" id="precoUnitario" readonly>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label">Quantidade</label>-->
+<!--                        <input type="number" class="form-control" id="quantidade" min="1" value="1" required>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label">Total</label>-->
+<!--                        <input type="text" class="form-control" id="totalVenda" readonly>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>-->
+<!--                <button type="button" class="btn btn-ice" onclick="finalizarVenda()">Confirmar</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<footer class="rodape">
+    <div class="container">
+        <a href="/login" class="btn" title="Acesse o Sistema de Gestão">Acesse o Sistema</a>
+        <p>© 2025 Ice Candy Lovers. Todos os direitos reservados.</p>
+        <p>
+            <a href="mailto:icecandyloverspg@gmail.com" title="Envie um e-mail"><i class="bi bi-envelope"></i> icecandyloverspg@gmail.com</a> |
+            <a href="https://www.instagram.com/icecandyloverspg/" target="_blank" title="Siga-nos no Instagram"><i class="bi bi-instagram"></i> @icecandyloverspg</a>
+        </p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/index-script.js"></script>
+</body>
+</html>

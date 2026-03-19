@@ -1,0 +1,81 @@
+name: Deploy para EC2 - Produção
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      APP_NAME: icecandylovers
+      DEPLOY_DIR: /home/ubuntu/icecandylovers
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build com Maven
+        run: mvn clean package -DskipTests
+
+      - name: Copiar artefato para EC2
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          port: 22
+          source: "target/*.jar"
+          target: "${{ env.DEPLOY_DIR }}/incoming"
+
+      - name: Conectar via SSH e reiniciar a aplicação
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -euo pipefail
+
+            APP_NAME="${{ env.APP_NAME }}"
+            DEPLOY_DIR="${{ env.DEPLOY_DIR }}"
+            INCOMING_DIR="$DEPLOY_DIR/incoming"
+            ARTIFACT_NAME="$(find "$INCOMING_DIR/target" -maxdepth 1 -type f -name '*.jar' | head -n 1 | xargs -r basename)"
+
+            if [ -z "$ARTIFACT_NAME" ]; then
+              echo "Nenhum artefato .jar encontrado em $INCOMING_DIR/target"
+              exit 1
+            fi
+
+            CURRENT_JAR="$DEPLOY_DIR/$ARTIFACT_NAME"
+            BACKUP_JAR="$DEPLOY_DIR/$ARTIFACT_NAME.bak"
+            INCOMING_JAR="$INCOMING_DIR/target/$ARTIFACT_NAME"
+
+            mkdir -p "$DEPLOY_DIR" "$INCOMING_DIR"
+
+            echo "Parando a aplicação..."
+            pkill -f "$ARTIFACT_NAME" || echo "Aplicação não estava rodando."
+
+            sleep 5
+
+            echo "Fazendo backup da versão antiga (se existir)..."
+            if [ -f "$CURRENT_JAR" ]; then
+              mv "$CURRENT_JAR" "$BACKUP_JAR"
+            else
+              echo "Nenhum arquivo antigo encontrado."
+            fi
+
+            echo "Copiando a nova versão da aplicação..."
+            cp "$INCOMING_JAR" "$CURRENT_JAR"
+
+            echo "Iniciando a aplicação..."
+            nohup java -jar "$CURRENT_JAR" > "$DEPLOY_DIR/app.log" 2>&1 &
+
+            echo "Deploy concluído!"

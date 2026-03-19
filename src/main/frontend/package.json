@@ -1,0 +1,24 @@
+{
+  "name": "ice-candy-lovers",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "sass scss/:../resources/static/css/ --style compressed",
+    "build:js": "parcel build src/js/*.js --dist-dir ../resources/static/js/",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "watch": "concurrently \"npm:watch-*\"",
+    "watch:css": "sass --watch scss/:../resources/static/css/",
+    "watch:js": "parcel watch src/js/*.js --dist-dir ../resources/static/js/"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "chart.js": "^4.4.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "sass": "^1.69.5",
+    "parcel": "^2.9.3",
+    "concurrently": "^8.2.2"
+  }
+}

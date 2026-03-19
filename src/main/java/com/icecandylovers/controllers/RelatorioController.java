@@ -61,7 +61,7 @@ public class RelatorioController {
             return ResponseEntity.ok(relatorio);
         } catch (Exception e) {
             logger.error("Erro ao gerar relatório.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao gerar relatório: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao gerar relatorio. Tente novamente mais tarde.");
         }
     }
 }

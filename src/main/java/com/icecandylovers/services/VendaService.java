@@ -8,7 +8,6 @@ import com.icecandylovers.repositories.VendaRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,7 +23,6 @@ public class VendaService {
     private final VendaItemRepository vendaItemRepository;
     private final ProdutoService produtoService;
 
-    @Autowired
     public VendaService(VendaRepository vendaRepository, VendaItemRepository vendaItemRepository, ProdutoService produtoService) {
         this.vendaRepository = vendaRepository;
         this.vendaItemRepository = vendaItemRepository;

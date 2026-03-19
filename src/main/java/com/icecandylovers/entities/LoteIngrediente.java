@@ -6,13 +6,16 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "lote_ingrediente", indexes = {
+        @Index(name = "idx_lote_ing_id_data", columnList = "ingrediente_id, data_compra")
+})
 public class LoteIngrediente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingrediente_id")
     @JsonBackReference // Evita recursão infinita
     private Ingrediente ingrediente;

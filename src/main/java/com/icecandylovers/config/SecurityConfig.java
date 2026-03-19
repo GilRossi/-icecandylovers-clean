@@ -40,8 +40,7 @@ public class SecurityConfig {
             "/assets/**",
             "/api/chat/**",
             "/api/produtos/categoria/**",
-            "/error",
-            "/h2-console/**"
+            "/error"
     );
 
     private final UserService userService;

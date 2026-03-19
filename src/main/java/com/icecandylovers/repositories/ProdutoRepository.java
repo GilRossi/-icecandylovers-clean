@@ -51,5 +51,12 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
             """)
     List<Produto> findByCategoria(@Param("categoria") CategoriaProduto categoria);
 
+    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual > 10")
+    int countProdutosComEstoque();
 
+    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual BETWEEN 1 AND 10")
+    int countProdutosComEstoqueBaixo();
+
+    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual = 0")
+    int countProdutosSemEstoque();
 }

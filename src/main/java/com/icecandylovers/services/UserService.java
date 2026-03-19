@@ -28,13 +28,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void registerUser(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new DuplicateResourceException("Nome de usuário já está em uso");
+    public void registerUser(String username, String password) {
+        if (userRepository.existsByUsername(username)) {
+            throw new DuplicateResourceException("Nome de usuario ja esta em uso");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER"); // Papel padrão para novos usuários
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole("ROLE_USER");
         userRepository.save(user);
     }
 }

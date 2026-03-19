@@ -74,15 +74,6 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
             @Param("limit") int limit
     );
 
-    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual > 10")
-    int countProdutosComEstoque();
-
-    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual BETWEEN 1 AND 10")
-    int countProdutosComEstoqueBaixo();
-
-    @Query("SELECT COUNT(p) FROM Produto p WHERE p.estoqueAtual = 0")
-    int countProdutosSemEstoque();
-
     @Query("SELECT COALESCE(SUM(p.precoCusto * vi.quantidade), 0) " +
             "FROM Venda v JOIN v.itens vi JOIN vi.produto p " +
             "WHERE v.dataVenda BETWEEN :start AND :end " +
@@ -116,6 +107,6 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
     @Query("SELECT v FROM Venda v LEFT JOIN FETCH v.itens WHERE v.id = :id")
     Optional<Venda> findByIdWithItens(@Param("id") Long id);
 
-    @Query("SELECT v FROM Venda v LEFT JOIN FETCH v.itens")
+    @Query("SELECT DISTINCT v FROM Venda v LEFT JOIN FETCH v.itens")
     List<Venda> findAllWithItens();
 }

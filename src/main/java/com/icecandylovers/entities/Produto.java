@@ -6,13 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "produto")
+@Table(name = "produto", indexes = {
+        @Index(name = "idx_produto_sabor", columnList = "sabor")
+})
 public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
+    @Column(unique = true)
     private String sabor;
 
     private Integer estoqueInicial;

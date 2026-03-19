@@ -13,6 +13,9 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     private String nome;
 
     @Column(precision = 10, scale = 2)
@@ -26,7 +29,7 @@ public class Ingrediente {
     @Column(precision = 10, scale = 3)
     private BigDecimal estoqueAtual;
 
-    @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // Evita recursão infinita
     private List<LoteIngrediente> lotes = new ArrayList<>();
 
